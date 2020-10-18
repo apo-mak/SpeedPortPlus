@@ -4,6 +4,8 @@
 
 ### Python ###
 config.py
+test_out.json
+test/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

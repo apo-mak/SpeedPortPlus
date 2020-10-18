@@ -4,9 +4,7 @@ import requests
 import json
 import config
 
-
-
-target_ip = routerIp
+target_ip = config.routerIp
 
 headers = {'Accept-Language': 'en'}
 url='http://{host}/data/'.format(host=target_ip)
@@ -29,13 +27,22 @@ def getStatus(session_id):
 	action_url=url + action_endpoint
 	headers = {'Accept-Language': 'en','Cookie':'session_id={cookie}'.format(cookie=session_id)}
 	request = requests.get(action_url, headers=headers)
-	# print(json.dumps(request.json(), indent=4, sort_keys=True), file=open('my_router_responses/Status.json', "a"))
-	json_data = json.loads(request.text)
+	json_data = request.json()
 	return json_data
 
-# print(logIn(Username,password))
 
-sesid= logIn(Username,password)
-print (sesid)
 
-print (getStatus(sesid))
+def json_to_dic(json_data):
+	results_dic= {}
+    
+	for v in json_data:
+		results_dic[v["varid"]] = v["varvalue"]
+	return results_dic
+
+
+sesid= logIn(config.Username,config.password)
+
+data_from_request= getStatus(sesid)
+
+
+print ( json_to_dic(data_from_request)["router_state"])
