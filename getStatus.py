@@ -30,7 +30,13 @@ def getStatus(session_id):
 	json_data = request.json()
 	return json_data
 
-
+def getOverview(session_id):
+	action_endpoint = "Overview.json"
+	action_url=url + action_endpoint
+	headers = {'Accept-Language': 'en','Cookie':'session_id={cookie}'.format(cookie=session_id)}
+	request = requests.get(action_url, headers=headers)
+	json_data = request.json()
+	return json_data
 
 def json_to_dic(json_data):
 	results_dic= {}
@@ -45,4 +51,4 @@ sesid= logIn(config.Username,config.password)
 data_from_request= getStatus(sesid)
 
 
-print ( json_to_dic(data_from_request)["router_state"])
+print ( json_to_dic(data_from_request)["status"])
